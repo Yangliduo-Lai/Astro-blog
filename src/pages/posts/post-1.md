@@ -2,7 +2,7 @@
 layout: ../../layouts/MarkdownPostLayout.astro
 title: '从零构建个人博客：网站搭建记录'
 LastUpdateDate: 2025-11-18
-description: '是先有网站搭建博客还是先搭建博客网站？'
+description: '是先有网站搭建博客还是先有搭建博客网站？'
 tags: []
 ---
 # A quick start
@@ -68,6 +68,7 @@ http://localhost:4321
 4. 选择你的 `astro-blog` 项目文件夹
 ## 第一篇博客
 Basic blog without any other function.
+参考：[搭建你的第一个 Astro 博客](https://docs.astro.build/zh-cn/tutorial/0-introduction/)
 1. 博客文件
 位置：`src/pages/posts/post.md`
 结构：

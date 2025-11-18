@@ -1,3 +1,32 @@
+@import "tailwindcss";
+
+@layer components {
+  .astro-code {
+    background-color: #1a1b26 !important;
+    border-color: theme('colors.zinc.700');
+    border-width: 1px;
+    border-radius: theme('borderRadius.lg');
+    padding: theme('spacing.4');
+    margin-top: theme('spacing.6');
+    margin-bottom: theme('spacing.6');
+    width: 100%;
+    display: block;
+    overflow: hidden;
+  }
+  /* 内部 <pre> 标签 */
+  .astro-code pre {
+    @apply m-0                     /* 去掉默认 margin */
+           overflow-x-auto         /* 支持横向滚动 */
+           leading-relaxed         /* 行高 */
+           text-sm;                /* 字体大小 */
+  }
+  /* 内部 <code> 标签 */
+  .astro-code code {
+    @apply font-mono               /* 使用等宽字体 */
+           whitespace-pre;         /* 保留空白 */
+  }
+}
+
 html {
   background-color: #f1f5f9;
   font-family: sans-serif;
