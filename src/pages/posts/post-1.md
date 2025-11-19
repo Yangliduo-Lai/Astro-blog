@@ -1,20 +1,18 @@
 ---
 layout: ../../layouts/MarkdownPostLayout.astro
 title: '从零构建个人博客：网站搭建记录'
-LastUpdateDate: 2025-11-18
+LastUpdateDate: 2025-11-19
 description: '是先有网站搭建博客还是先有搭建博客网站？'
-tags: []
+tags: [WSL2, Astro, Netlify]
+languages: [Astro, HTML, CSS, JavaScript, Markdown]
 ---
 # A quick start
 
 # 技术栈
 
-- 环境：WSL+Ubuntu 
-- IDE：Vs Code
+- 环境：WSL2
 - 前端框架：Astro
 - 部署：Netlify
-- 语言maybe：HTML CSS JavaScript Markdown(?)
-- Git of course
 
 # 代码日记
 
