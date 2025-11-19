@@ -4,7 +4,7 @@ const { frontmatter } = Astro.props;
 ---
 <BaseLayout pageTitle={frontmatter.title} class="prose prose-lg dark:prose-invert mx-auto">
   <p><em>{frontmatter.description}</em></p>
-  <p>最后修改时间：{frontmatter.LastUpdateDate.toString().slice(0,10)}</p>
+  <p>最后修改时间：{frontmatter.lastUpdateDate.toString().slice(0,10)}</p>
 
      <div class="tags">
       {frontmatter.tags.map((tag: string) => (
