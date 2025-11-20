@@ -1,36 +1,30 @@
 ---
+import '../styles/blog.css'
+
 import BaseLayout from './BaseLayout.astro';
 const { frontmatter } = Astro.props;
 ---
 <BaseLayout pageTitle={frontmatter.title} class="prose prose-lg dark:prose-invert mx-auto">
-  <p><em>{frontmatter.description}</em></p>
-  <p>最后修改时间：{frontmatter.lastUpdateDate.toString().slice(0,10)}</p>
+  <div class="description">
+    <p><em>{frontmatter.description}</em></p>
+  </div>
 
-     <div class="tags">
-      {frontmatter.tags.map((tag: string) => (
-        <p class="tag"><a href={`/tags/${tag}`}>{tag}</a></p>
-      ))}
-    </div>
+  <div class="date flex flex-wrap gap-4">
+    <span>创建时间：{frontmatter.pubDate.toString().slice(0,10)}</span>
+    <span>最后修改时间：{frontmatter.lastUpdateDate.toString().slice(0,10)}</span>
+  </div>
+
+  <div class="tags">
+    {frontmatter.tags.map((tag: string) => (
+      <p class="tag"><a href={`/tags/${tag}`}>{tag}</a></p>
+    ))}
+  </div>
+
+  <div class="languages">
+    {frontmatter.languages.map((language: string) => (
+      <p class="language"><a href={`/languages/${language}`}>{language}</a></p>
+    ))}
+  </div>
 
   <slot />
 </BaseLayout>
-<style>
-  .prose a {
-    color: #00539F;
-    text-decoration: underline;
-  }
-
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .tag {
-    margin: 0.25em;s
-    border: dotted 1px #a1a1a1;
-    border-radius: .5em;
-    padding: .5em 1em;
-    font-size: 1.15em;
-    background-color: #F8FCFD;
-  }
-</style>

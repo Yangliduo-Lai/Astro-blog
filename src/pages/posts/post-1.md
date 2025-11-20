@@ -4,7 +4,7 @@ title: '从零构建个人博客：网站搭建记录'
 pubDate: 2025-11-18
 lastUpdateDate: 2025-11-19
 description: '是先有网站搭建博客还是先有搭建博客网站？'
-tags: [WSL, Astro, Netlify]
+tags: [WSL, Astro, Netlify, Fontsource, tailwindcss]
 languages: [Astro, HTML, CSS, JavaScript, Markdown]
 ---
 # A quick start

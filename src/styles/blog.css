@@ -1,0 +1,75 @@
+@import "tailwindcss";
+@import '@fontsource-variable/noto-sans-sc';
+
+/* 一级标题 */
+h1 {
+    color:#3c096c;
+    font-size: var(--text-4xl); /* 2.25rem (36px) */ 
+    line-height: var(--text-4xl--line-height); /* calc(2.5 / 2.25) */
+    line-height: 1.5;
+}
+
+/* 二级标题 */
+h2 {
+    color:#3c096c;
+    font-size: var(--text-3xl); /* 1.875rem (30px) */ 
+    line-height: var(--text-3xl--line-height); /* calc(2.25 / 1.875) */
+    line-height: 1.5;
+}
+
+/* 三级标题 */
+h3 {
+    color:#3c096c;
+    font-size: var(--text-xl); /* 1.25rem (20px) */ 
+    line-height: var(--text-xl--line-height); /* calc(1.75 / 1.25) */
+    line-height: 1.5;
+}
+
+/* description */
+.description {
+    color:#4f518c;
+    font-style: italic;
+}
+
+/* date */
+.date {
+    color:#4f518c;
+    line-height: 1.5;
+}
+
+/* tag */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag a {
+  text-decoration: none;
+  color: inherit;
+}
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35em 0.9em;
+  font-size: 0.95rem;
+  font-weight: 500;
+
+  background: #f8f5ff;
+  border: 1px solid #ddd6fe;
+  color: #4c1d95;
+
+  border-radius: 0.55em;
+  transition: all 0.18s ease;
+}
+
+
+/* Hover effect */
+.tag:hover {
+  background: #ede9fe;
+  border-color: #c4b5fd;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(76, 29, 149, 0.18);
+}
+
+/* languages */
