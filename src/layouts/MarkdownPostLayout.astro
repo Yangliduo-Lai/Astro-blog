@@ -9,7 +9,7 @@ const { frontmatter } = Astro.props;
     <p><em>{frontmatter.description}</em></p>
   </div>
 
-  <div class="date flex flex-wrap gap-4">
+  <div class="date flex flex-wrap gap-1.5">
     <span>创建时间：{frontmatter.pubDate.toString().slice(0,10)}</span>
     <span>最后修改时间：{frontmatter.lastUpdateDate.toString().slice(0,10)}</span>
   </div>
