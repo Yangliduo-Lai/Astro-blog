@@ -1,13 +1,29 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro'
-const allPosts = Object.values(import.meta.glob('./blogs/*.md', { eager: true }));
-const pageTitle = "我的 Astro 学习博客";
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const modules = import.meta.glob('./blogs/*.md', { eager: true });
+
+const posts = Object.entries(modules).map(([path, mod]) => {
+  const frontmatter = (mod as any).frontmatter ?? {};
+
+  const title =
+    frontmatter.title ??
+    path.replace('./blogs/', '').replace('.md', '');
+
+  const url = path.replace('./', '/').replace('.md', '/');
+
+  return { title, url };
+});
+
+const pageTitle = 'Blogs';
 ---
+
 <BaseLayout pageTitle={pageTitle}>
-  <p>在这里，我将分享我的 Astro 学习之旅。</p>
   <ul>
-    <li><a href="/blogs/post-1/">文章 1</a></li>
-    <li><a href="/blogs/post-2/">文章 2</a></li>
-    <li><a href="/blogs/post-3/">文章 3</a></li>
+    {posts.map((post) => (
+      <li>
+        <a href={post.url}>{post.title}</a>
+      </li>
+    ))}
   </ul>
 </BaseLayout>

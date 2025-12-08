@@ -1,12 +1,14 @@
 ---
+// 文章布局模版
+
 import '../styles/blog.css'
 
 import BaseLayout from './BaseLayout.astro';
 const { frontmatter } = Astro.props;
 ---
 <BaseLayout pageTitle={frontmatter.title} class="prose prose-lg dark:prose-invert mx-auto">
-  <div class="description">
-    <p><em>{frontmatter.description}</em></p>
+  <div class="title">
+    <h1>{frontmatter.title}</h1>
   </div>
 
   <div class="date flex flex-wrap gap-1.5">
@@ -17,12 +19,6 @@ const { frontmatter } = Astro.props;
   <div class="tags">
     {frontmatter.tags.map((tag: string) => (
       <p class="tag"><a href={`/tags/${tag}`}>{tag}</a></p>
-    ))}
-  </div>
-
-  <div class="languages">
-    {frontmatter.languages.map((language: string) => (
-      <p class="language"><a href={`/languages/${language}`}>{language}</a></p>
     ))}
   </div>
 
