@@ -1,0 +1,530 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const pageTitle = "About";
+
+// ==== 基本信息 ====
+const name = "Yangliduo Lai";
+const role = "Computer Science Student";
+const affiliation = "Computer Science, UNSW";
+const location = "Chongqing · China";
+const email = "yangliduolai@gmail.com";
+
+const bio = [
+  "Hi there! 👋 I'm Yangliduo Lai (赖杨丽多), a recent B.S. graduate from Southeast University (SEU). I'm currently pursuing my MPhil at UNSW under the supervision of Dr. Dong Wen and Dr. Zhengyi Yang.",
+  "My research focuses on graph-based RAG memory and related topics.",
+];
+
+// Education
+const education = [
+  {
+    period: "2026 – Present",
+    school: "The University of New South Wales",
+    detail: "MPhil in Computer Science",
+  },
+  {
+    period: "2021 – 2025",
+    school: "Southeast University",
+    detail: "B.S. in Computer Science",
+  },
+];
+
+// Awards（先留空）
+const awards: { name: string; detail: string }[] = [];
+
+// Personal interests
+const interests = [
+  "I am a big gamer.",
+];
+
+// 游戏图片
+const platinumGames = [
+  {
+    title: "Elden Ring: Nightreign",
+    platform: "PC",
+    cover: "src/assets/games/Elden_Ring_Nightreign.jpg",
+  },
+];
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <article class="about-layout page-wrapper">
+    {/* 右侧：Table of Contents */}
+    <aside class="toc">
+      <div class="toc-title">TABLE OF CONTENTS</div>
+      <ul class="toc-list">
+        <li class="toc-item">
+          <a href="#top" class="toc-link is-active" data-target="top">
+            {name}
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="#education" class="toc-link" data-target="education">
+            Education
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="#awards" class="toc-link" data-target="awards">
+            Awards
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="#interests" class="toc-link" data-target="interests">
+            Personal Interests
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    {/* 左侧：正文 */}
+    <div class="about-main">
+      <header id="top" class="about-header page-header" data-section="top">
+        <h1 class="page-title">{pageTitle}</h1>
+
+        <h2 class="about-name">{name}</h2>
+        <p class="about-role">{role}</p>
+        <p class="about-affiliation">
+          {affiliation}
+          <br />
+          {location}
+        </p>
+        <p class="about-contact">
+          Email{' '}
+          <a href={`mailto:${email}`}>{email}</a>
+        </p>
+
+        {bio.map((para) => (
+          <p>{para}</p>
+        ))}
+      </header>
+
+      <section
+        id="education"
+        class="about-section"
+        data-section="education"
+      >
+        <h3 class="about-section-title">Education</h3>
+        <ul class="edu-list">
+          {education.map((item) => (
+            <li class="edu-item">
+              <div class="edu-period">{item.period}</div>
+              <div class="edu-main">
+                <div class="edu-school">{item.school}</div>
+                <div class="edu-detail">{item.detail}</div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section
+        id="awards"
+        class="about-section"
+        data-section="awards"
+      >
+        <h3 class="about-section-title">Awards</h3>
+        {awards.length === 0 ? (
+          <p class="about-note">
+            I will add awards and scholarships here in the future.
+          </p>
+        ) : (
+          <ul class="about-list">
+            {awards.map((a) => (
+              <li class="about-list-item">
+                <div class="about-award-name">{a.name}</div>
+                <div class="about-award-desc">{a.detail}</div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <section
+        id="interests"
+        class="about-section"
+        data-section="interests"
+      >
+        <h3 class="about-section-title">Personal Interests</h3>
+        <ul class="about-list">
+          {interests.map((item) => (
+            <li class="about-list-item">{item}</li>
+          ))}
+        </ul>
+
+        {/* 横向滚动的白金游戏展览 */}
+        <div class="platinum-wrapper">
+          <div class="platinum-scroll">
+            {platinumGames.map((game) => (
+              <figure class="platinum-card">
+                <div class="platinum-cover-wrap">
+                  <img
+                    src={game.cover}
+                    alt={game.title}
+                    class="platinum-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <figcaption class="platinum-meta">
+                  <div class="platinum-game-title">{game.title}</div>
+                  {game.platform && (
+                    <div class="platinum-game-platform">
+                      {game.platform}
+                    </div>
+                  )}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  </article>
+
+  <!-- 滚动高亮当前 section 的脚本 -->
+  <script>
+    if (typeof window !== "undefined") {
+      const onReady = () => {
+        const sections = Array.from(
+          document.querySelectorAll("[data-section]")
+        );
+        const links = Array.from(
+          document.querySelectorAll(".toc-link")
+        );
+        if (!sections.length || !links.length) return;
+
+        const linkById = new Map();
+        links.forEach((link) => {
+          const target = link.getAttribute("data-target");
+          if (target) {
+            linkById.set(target, link);
+          }
+        });
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              const id = entry.target.id;
+              const link = linkById.get(id);
+              if (!link) return;
+
+              if (entry.isIntersecting) {
+                links.forEach((l) => l.classList.remove("is-active"));
+                link.classList.add("is-active");
+              }
+            });
+          },
+          {
+            rootMargin: "-40% 0px -45% 0px",
+            threshold: 0.1,
+          }
+        );
+
+        sections.forEach((section) => observer.observe(section));
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", onReady);
+      } else {
+        onReady();
+      }
+    }
+  </script>
+
+  <style>
+    .about-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 220px);
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    .about-main {
+      font-size: 0.95rem;
+      order: 1;
+    }
+
+    .toc {
+      order: 2;
+    }
+
+    @media (max-width: 900px) {
+      .about-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .toc {
+        position: static;
+        margin-bottom: 0.5rem;
+        order: -1;
+      }
+    }
+
+    /* TOC 样式（明亮模式：紫色主题） */
+    .toc {
+      font-size: 0.85rem;
+      position: sticky;
+      top: 1.5rem;
+      align-self: flex-start;
+      padding: 0.75rem;
+      border-radius: 0.75rem;
+      background-color: #f5f3ff;
+      border: 1px solid #e4ddff;
+    }
+
+    .toc-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #7c3aed;
+      margin-bottom: 0.6rem;
+    }
+
+    .toc-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .toc-item + .toc-item {
+      margin-top: 0.2rem;
+    }
+
+    .toc-link {
+      display: block;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      text-decoration: none;
+      color: #4b5563;
+      transition:
+        background-color 0.15s ease,
+        color 0.15s ease;
+    }
+
+    .toc-link:hover,
+    .toc-link:focus {
+      background-color: #ede9fe;
+      color: #2e1065;
+    }
+
+    .toc-link.is-active {
+      background-color: #4c1d95;
+      color: #f9fafb;
+    }
+
+    /* 正文样式 */
+    .about-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .about-name {
+      font-size: 1.25rem;
+      margin: 0.75rem 0 0.25rem;
+    }
+
+    .about-role {
+      margin: 0 0 0.25rem;
+      font-weight: 500;
+    }
+
+    .about-affiliation {
+      margin: 0;
+      color: #6b7280;
+    }
+
+    .about-contact {
+      margin: 0.5rem 0 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    .about-contact a {
+      text-decoration: none;
+    }
+
+    .about-contact a:hover {
+      text-decoration: underline;
+    }
+
+    .about-section {
+      margin-top: 1.75rem;
+    }
+
+    .about-section-title {
+      font-size: 1.1rem;
+      margin: 0 0 0.75rem;
+      color: #4c1d95;
+    }
+
+    .about-section p {
+      margin-top: 0;
+      margin-bottom: 0.75rem;
+    }
+
+    .about-list {
+      padding-left: 1.25rem;
+      margin: 0;
+    }
+
+    .about-list-item + .about-list-item {
+      margin-top: 0.35rem;
+    }
+
+    .about-award-name {
+      font-weight: 600;
+    }
+
+    .about-award-desc {
+      font-size: 0.9rem;
+      color: #4b5563;
+    }
+
+    .about-note {
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin-top: 0.75rem;
+    }
+
+    .edu-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .edu-item {
+      display: flex;
+      gap: 0.75rem;
+      padding: 0.35rem 0;
+    }
+
+    .edu-period {
+      font-size: 0.85rem;
+      color: #6b7280;
+      min-width: 8.5rem;
+    }
+
+    .edu-school {
+      font-weight: 600;
+    }
+
+    .edu-detail {
+      font-size: 0.9rem;
+      color: #4b5563;
+    }
+
+    /* 白金游戏横向滚动 */
+    .platinum-wrapper {
+      margin-top: 0.5rem;
+      margin-left: 1.25rem;
+    }
+
+    .platinum-scroll {
+      display: flex;
+      gap: 0.75rem;
+      overflow-x: auto;
+      padding-bottom: 0.4rem;
+      scroll-behavior: smooth;
+    }
+
+    .platinum-scroll::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .platinum-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .platinum-scroll::-webkit-scrollbar-thumb {
+      background: #d4cafe;
+      border-radius: 999px;
+    }
+
+    .platinum-card {
+      flex: 0 0 auto;
+      width: 120px;
+      font-size: 0.8rem;
+    }
+
+    .platinum-cover-wrap {
+      border-radius: 0.75rem;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+      background-color: #f9fafb;
+    }
+
+    .platinum-cover {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      aspect-ratio: 3 / 4;
+    }
+
+    .platinum-meta {
+      margin-top: 0.25rem;
+    }
+
+    .platinum-game-title {
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .platinum-game-platform {
+      margin-top: 0.1rem;
+      color: #6b7280;
+    }
+
+    /* Dark mode */
+    html.dark .toc {
+      background-color: #020617;
+      border-color: #111827;
+    }
+
+    html.dark .toc-title {
+      color: #e5e7eb;
+    }
+
+    html.dark .toc-link {
+      color: #9ca3af;
+    }
+
+    html.dark .toc-link:hover,
+    html.dark .toc-link:focus {
+      background-color: #111827;
+      color: #f9fafb;
+    }
+
+    html.dark .toc-link.is-active {
+      background-color: rgba(168, 85, 247, 0.4);
+      color: #f9fafb;
+    }
+
+    html.dark .about-section-title {
+      color: #f3e8ff;
+    }
+
+    html.dark .about-affiliation {
+      color: #9ca3af;
+    }
+
+    html.dark .about-award-desc,
+    html.dark .edu-detail {
+      color: #d1d5db;
+    }
+
+    html.dark .about-note {
+      color: #9ca3af;
+    }
+
+    html.dark .platinum-cover-wrap {
+      border-color: #1f2937;
+      background-color: #020617;
+    }
+
+    html.dark .platinum-game-platform {
+      color: #9ca3af;
+    }
+
+    html.dark .platinum-scroll::-webkit-scrollbar-thumb {
+      background: #6d28d9;
+    }
+  </style>
+</BaseLayout>

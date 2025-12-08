@@ -1,0 +1,732 @@
+---
+// Links page
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const pageTitle = "Links";
+
+// ==== 自己的社交链接（按需修改）====
+const socialLinks = [
+  {
+    name: "GitHub",
+    url: "https://github.com/your-username",
+    desc: "Code, experiments, and small tools.",
+  },
+  {
+    name: "Email",
+    url: "mailto:you@example.com",
+    desc: "Feel free to reach out about research, projects, or anything interesting.",
+  },
+  {
+    name: "LinkedIn",
+    url: "https://www.linkedin.com/in/your-id",
+    desc: "Short summary of my academic and professional background.",
+  },
+];
+
+// ==== Friend Links：先用占位，之后你可以换成自己的友链 ====
+const friendLinks = [
+  {
+    name: "Friend A's Blog",
+    url: "https://example.com",
+    motto: "CS, math, and thoughts on learning.",
+    since: "2025-01-01",
+  },
+  {
+    name: "Friend B's Site",
+    url: "https://example.org",
+    motto: "Notes on systems, tooling, and productivity.",
+    since: "2024-11-20",
+  },
+  {
+    name: "Friend C's Notebook",
+    url: "https://blog.example.net",
+    motto: "Algorithms, contests, and small experiments.",
+    since: "2024-07-15",
+  },
+];
+
+// ==== 项目 / 社区链接（可以是你加入的 blog 环、论坛等）====
+const projectLinks = [
+  {
+    name: "Example Blog Circle",
+    url: "#",
+    desc: "Randomly visit members of a small blog circle. A nice way to discover personal sites.",
+    joined: "Joined on 2025-07-17 (placeholder).",
+  },
+  {
+    name: "Example Dev Community",
+    url: "#",
+    desc: "A developer community that focuses on personal websites, tools, and writing.",
+    joined: "Joined on 2025-07-18 (placeholder).",
+  },
+];
+
+// ==== 站点依赖 / 技术栈（根据你真实使用的再修改）====
+const stack = [
+  {
+    category: "Framework",
+    items: ["Astro"],
+  },
+  {
+    category: "Styling",
+    items: [
+      "Tailwind CSS (via @import)",
+      "Custom CSS with a purple light/dark theme",
+    ],
+  },
+  {
+    category: "Content",
+    items: ["Markdown files for blog posts", "Astro content collections (optional)"],
+  },
+  {
+    category: "Deployment",
+    items: ["Fill in your deployment platform here (e.g., Vercel, Netlify, GitHub Pages)."],
+  },
+];
+
+// ==== 赞助（先给一个模板，将来你有赞助渠道时再填）====
+const sponsors = [
+  {
+    name: "Example Sponsor",
+    amount: "CNY 100.00",
+    note: "Thank you for your generous support. This is a placeholder entry.",
+  },
+];
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <article class="links-layout page-wrapper">
+    <!-- 右侧：目录 TOC -->
+    <aside class="toc" aria-label="Table of Contents">
+      <div class="toc-title">TABLE OF CONTENTS</div>
+      <ul class="toc-list">
+        <li class="toc-item">
+          <a href="#social" class="toc-link is-active" data-target="social">
+            My Social Links
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="#friends" class="toc-link" data-target="friends">
+            Friend Links
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="#projects" class="toc-link" data-target="projects">
+            Project Links
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="#stack" class="toc-link" data-target="stack">
+            Site Stack
+          </a>
+        </li>
+        <li class="toc-item">
+          <a href="#sponsorship" class="toc-link" data-target="sponsorship">
+            Sponsorship
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- 左侧：正文内容 -->
+    <div class="links-main">
+      <header class="links-header page-header" id="social" data-section="social">
+        <h1 class="page-title">{pageTitle}</h1>
+      </header>
+
+      <!-- My Social Links -->
+      <section class="links-section" data-section="social">
+        <h2 class="links-section-title">My Social Links</h2>
+        <ul class="social-list">
+          {socialLinks.map((link) => (
+            <li class="social-item">
+              <a href={link.url} class="social-name" target="_blank" rel="noopener noreferrer">
+                {link.name}
+              </a>
+              <div class="social-desc">{link.desc}</div>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <!-- Friend Links -->
+      <section class="links-section" id="friends" data-section="friends">
+        <h2 class="links-section-title">Friend Links</h2>
+        <p class="links-note">
+          These are selected personal sites and blogs that I enjoy reading.
+          Links are not ordered by importance.
+        </p>
+        <ul class="friend-list">
+          {friendLinks.map((f) => (
+            <li class="friend-item">
+              <a
+                href={f.url}
+                class="friend-name"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {f.name}
+              </a>
+              <div class="friend-motto">{f.motto}</div>
+              {f.since && (
+                <div class="friend-since">
+                  Since {f.since}
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+
+        <section class="links-subsection">
+          <h3 class="links-subsection-title">Apply for a Friend Link</h3>
+          <p>
+            If you would like to exchange friend links, please make sure your site is
+            active and that it respects basic netiquette.
+          </p>
+          <p>You can contact me with the following information:</p>
+          <ul class="apply-list">
+            <li><strong>Name</strong>: The name of your site or your preferred handle.</li>
+            <li><strong>Website</strong>: URL of your personal site or blog.</li>
+            <li><strong>Motto</strong>: A short sentence describing your site.</li>
+            <li><strong>Avatar</strong>: Optional image or favicon URL.</li>
+          </ul>
+          <p>
+            Send an email to the address on the <a href="/about">About</a> page, or leave
+            a message through any channel listed above.
+          </p>
+        </section>
+      </section>
+
+      <!-- Project Links -->
+      <section class="links-section" id="projects" data-section="projects">
+        <h2 class="links-section-title">Project Links</h2>
+        <p class="links-note">
+          These links point to external projects, communities, or blog circles that I find useful
+          or interesting. Entries below are placeholders; feel free to replace them with real ones.
+        </p>
+        <ul class="project-list">
+          {projectLinks.map((p) => (
+            <li class="project-item">
+              <a
+                href={p.url}
+                class="project-name"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {p.name}
+              </a>
+              <div class="project-desc">{p.desc}</div>
+              {p.joined && (
+                <div class="project-joined">{p.joined}</div>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <!-- Site Stack / Dependencies -->
+      <section class="links-section" id="stack" data-section="stack">
+        <h2 class="links-section-title">Site Stack</h2>
+        <p class="links-note">
+          This is a brief overview of tools and services used to build and deploy this site.
+          Please edit this section to match your actual setup.
+        </p>
+        <div class="stack-grid">
+          {stack.map((block) => (
+            <section class="stack-block">
+              <h3 class="stack-category">{block.category}</h3>
+              <ul class="stack-list">
+                {block.items.map((item) => (
+                  <li class="stack-item">{item}</li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      </section>
+
+      <!-- Sponsorship -->
+      <section class="links-section" id="sponsorship" data-section="sponsorship">
+        <h2 class="links-section-title">Sponsorship</h2>
+        <p class="links-note">
+          If you find my notes or projects helpful and would like to support this site,
+          you are welcome to sponsor me. Please contact me by email for details.
+        </p>
+
+        <div class="donate-grid">
+          <div class="donate-block">
+            <h3 class="donate-title">Scan to Donate</h3>
+            <p class="donate-hint">
+              You can place QR codes or payment links here in the future.
+            </p>
+            <div class="donate-placeholder-row">
+              <div class="donate-placeholder">WeChat (placeholder)</div>
+              <div class="donate-placeholder">Alipay (placeholder)</div>
+            </div>
+          </div>
+
+          <div class="donate-block">
+            <h3 class="donate-title">Thank You</h3>
+            {sponsors.length === 0 ? (
+              <p class="links-note">
+                There are no sponsors listed yet. This section is a template for future support.
+              </p>
+            ) : (
+              <ul class="sponsor-list">
+                {sponsors.map((s) => (
+                  <li class="sponsor-item">
+                    <div class="sponsor-name">{s.name}</div>
+                    <div class="sponsor-amount">{s.amount}</div>
+                    {s.note && <div class="sponsor-note">{s.note}</div>}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  </article>
+
+  <!-- 滚动时高亮 TOC 的脚本 -->
+  <script>
+    if (typeof window !== "undefined") {
+      const onReady = () => {
+        const sections = Array.from(
+          document.querySelectorAll("[data-section]")
+        );
+        const links = Array.from(
+          document.querySelectorAll(".toc-link")
+        );
+        if (!sections.length || !links.length) return;
+
+        const linkById = new Map();
+        links.forEach((link) => {
+          const target = link.getAttribute("data-target");
+          if (target) {
+            linkById.set(target, link);
+          }
+        });
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              const id = entry.target.id || entry.target.getAttribute("data-section");
+              const link = linkById.get(id);
+              if (!link) return;
+
+              if (entry.isIntersecting) {
+                links.forEach((l) => l.classList.remove("is-active"));
+                link.classList.add("is-active");
+              }
+            });
+          },
+          {
+            rootMargin: "-40% 0px -45% 0px",
+            threshold: 0.1,
+          }
+        );
+
+        sections.forEach((section) => observer.observe(section));
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", onReady);
+      } else {
+        onReady();
+      }
+    }
+  </script>
+
+  <style>
+    /* ===== 布局：左正文 + 右 TOC ===== */
+    .links-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 220px);
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    .links-main {
+      font-size: 0.95rem;
+      order: 1; /* 正文在左 */
+    }
+
+    .toc {
+      order: 2; /* TOC 在右 */
+    }
+
+    @media (max-width: 900px) {
+      .links-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .toc {
+        position: static;
+        margin-bottom: 0.5rem;
+        order: -1; /* 小屏 TOC 放到上面 */
+      }
+    }
+
+    /* ===== TOC 样式（和 About 页保持一致：紫色主题） ===== */
+    .toc {
+      font-size: 0.85rem;
+      position: sticky;
+      top: 1.5rem;
+      align-self: flex-start;
+      padding: 0.75rem 0.75rem 0.75rem 0.75rem;
+      border-radius: 0.75rem;
+      background-color: #f5f3ff;          /* 淡紫底 */
+      border: 1px solid #e4ddff;          /* 很浅的紫色边框 */
+    }
+
+    .toc-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #7c3aed;                     /* 紫色标题 */
+      margin-bottom: 0.6rem;
+    }
+
+    .toc-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .toc-item + .toc-item {
+      margin-top: 0.2rem;
+    }
+
+    .toc-link {
+      display: block;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      text-decoration: none;
+      color: #4b5563;                     /* 深灰文字，稍柔和 */
+      transition:
+        background-color 0.15s ease,
+        color 0.15s ease;
+    }
+
+    .toc-link:hover,
+    .toc-link:focus {
+      background-color: #ede9fe;          /* hover 浅紫 */
+      color: #2e1065;
+    }
+
+    .toc-link.is-active {
+      background-color: #4c1d95;          /* 主紫色高亮 */
+      color: #f9fafb;
+    }
+
+    /* ===== 正文基础样式 ===== */
+    .links-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .links-section {
+      margin-top: 1.75rem;
+    }
+
+    .links-section-title {
+      font-size: 1.2rem;
+      margin: 0 0 0.75rem;
+      color: #4c1d95;
+    }
+
+    .links-note {
+      font-size: 0.9rem;
+      color: #6b7280;
+      margin: 0 0 0.75rem;
+    }
+
+    .links-subsection {
+      margin-top: 1.25rem;
+    }
+
+    .links-subsection-title {
+      font-size: 1rem;
+      margin: 0 0 0.5rem;
+    }
+
+    /* Social Links */
+    .social-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .social-item + .social-item {
+      margin-top: 0.5rem;
+    }
+
+    .social-name {
+      font-weight: 600;
+      text-decoration: none;
+      color: #4c1d95;
+    }
+
+    .social-name:hover {
+      text-decoration: underline;
+    }
+
+    .social-desc {
+      font-size: 0.9rem;
+      color: #4b5563;
+    }
+
+    /* Friend Links */
+    .friend-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .friend-item {
+      padding: 0.75rem 0.85rem;
+      border-radius: 0.75rem;
+      border: 1px solid #e5e7eb;
+      background-color: #f9fafb;
+    }
+
+    .friend-name {
+      font-weight: 600;
+      text-decoration: none;
+      color: #4c1d95;
+    }
+
+    .friend-name:hover {
+      text-decoration: underline;
+    }
+
+    .friend-motto {
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+      color: #4b5563;
+    }
+
+    .friend-since {
+      font-size: 0.8rem;
+      margin-top: 0.3rem;
+      color: #6b7280;
+    }
+
+    .apply-list {
+      margin: 0.25rem 0 0;
+      padding-left: 1.25rem;
+      font-size: 0.9rem;
+    }
+
+    /* Project Links */
+    .project-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .project-item + .project-item {
+      margin-top: 0.75rem;
+    }
+
+    .project-name {
+      font-weight: 600;
+      text-decoration: none;
+      color: #4c1d95;
+    }
+
+    .project-name:hover {
+      text-decoration: underline;
+    }
+
+    .project-desc {
+      font-size: 0.9rem;
+      color: #4b5563;
+      margin-top: 0.1rem;
+    }
+
+    .project-joined {
+      font-size: 0.8rem;
+      color: #6b7280;
+      margin-top: 0.2rem;
+    }
+
+    /* Site Stack */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .stack-block {
+      padding: 0.75rem 0.85rem;
+      border-radius: 0.75rem;
+      border: 1px solid #e5e7eb;
+      background-color: #f9fafb;
+    }
+
+    .stack-category {
+      font-size: 1rem;
+      margin: 0 0 0.35rem;
+    }
+
+    .stack-list {
+      margin: 0;
+      padding-left: 1.25rem;
+      font-size: 0.9rem;
+    }
+
+    .stack-item + .stack-item {
+      margin-top: 0.25rem;
+    }
+
+    /* Sponsorship */
+    .donate-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .donate-block {
+      padding: 0.75rem 0.85rem;
+      border-radius: 0.75rem;
+      border: 1px solid #e5e7eb;
+      background-color: #f9fafb;
+    }
+
+    .donate-title {
+      font-size: 1rem;
+      margin: 0 0 0.5rem;
+    }
+
+    .donate-hint {
+      font-size: 0.9rem;
+      margin: 0 0 0.6rem;
+      color: #4b5563;
+    }
+
+    .donate-placeholder-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .donate-placeholder {
+      flex: 1;
+      min-width: 120px;
+      height: 120px;
+      border-radius: 0.75rem;
+      border: 1px dashed #c4b5fd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: #6b7280;
+      text-align: center;
+      padding: 0.5rem;
+    }
+
+    .sponsor-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      font-size: 0.9rem;
+    }
+
+    .sponsor-item + .sponsor-item {
+      margin-top: 0.4rem;
+    }
+
+    .sponsor-name {
+      font-weight: 600;
+    }
+
+    .sponsor-amount {
+      font-size: 0.85rem;
+      color: #4b5563;
+    }
+
+    .sponsor-note {
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+
+    /* Dark mode tweaks（和 About 页保持一致） */
+    html.dark .toc {
+      background-color: #020617;
+      border-color: #111827;
+    }
+
+    html.dark .toc-title {
+      color: #e5e7eb;
+    }
+
+    html.dark .toc-link {
+      color: #9ca3af;
+    }
+
+    html.dark .toc-link:hover,
+    html.dark .toc-link:focus {
+      background-color: #111827;
+      color: #f9fafb;
+    }
+
+    html.dark .toc-link.is-active {
+      background-color: rgba(168, 85, 247, 0.4);
+      color: #f9fafb;
+    }
+
+    html.dark .links-intro {
+      color: #d1d5db;
+    }
+
+    html.dark .links-note {
+      color: #9ca3af;
+    }
+
+    html.dark .social-desc,
+    html.dark .project-desc,
+    html.dark .donate-hint {
+      color: #d1d5db;
+    }
+
+    html.dark .friend-item,
+    html.dark .stack-block,
+    html.dark .donate-block {
+      background-color: #020617;
+      border-color: #111827;
+    }
+
+    html.dark .friend-motto,
+    html.dark .project-joined,
+    html.dark .friend-since,
+    html.dark .stack-item,
+    html.dark .sponsor-amount,
+    html.dark .sponsor-note {
+      color: #d1d5db;
+    }
+
+    html.dark .donate-placeholder {
+      border-color: #a78bfa;
+      color: #e5e7eb;
+    }
+
+    html.dark .social-name,
+    html.dark .friend-name,
+    html.dark .project-name {
+      color: #c4b5fd;
+    }
+
+    html.dark .social-name:hover,
+    html.dark .friend-name:hover,
+    html.dark .project-name:hover {
+      color: #e9d5ff;
+    }
+  </style>
+</BaseLayout>

@@ -1,0 +1,333 @@
+---
+// Publications page
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const pageTitle = "Publications";
+
+const preprints = [
+  //{
+  //  year: "2025",
+  //  title: "Title of a Preprint or Draft Paper",
+  //  authors: "Your Name, Coauthor Name",
+  //  venue: "arXiv preprint",
+  //  note: "Work in progress. This is a placeholder entry; replace it with your real preprints.",
+  //  links: [
+  //    { label: "PDF", url: "#" },
+  //    { label: "arXiv", url: "#" },
+  //  ],
+  //},
+];
+
+const conferencePapers = [
+  //{
+  //  year: "2024",
+  //  title: "An Example Conference Paper in Computer Science",
+  //  authors: "Your Name, Another Name",
+  //  venue: "Proceedings of Example Conference (CONF 2024)",
+  //  note: "Placeholder. Replace with your actual conference publications when available.",
+  //  links: [
+  //    { label: "PDF", url: "#" },
+  //    { label: "Slides", url: "#" },
+  //    { label: "Code", url: "#" },
+  //  ],
+  //},
+];
+
+const journalPapers = [
+  //{
+  //  year: "2023",
+  //  title: "An Example Journal Paper",
+  //  authors: "Your Name, Collaborator Name",
+  //  venue: "Journal of Interesting Results in Computer Science, 2023",
+  //  note: "You can remove this whole section if you do not have journal publications yet.",
+  //  links: [
+  //    { label: "PDF", url: "#" },
+  //    { label: "DOI", url: "#" },
+  //  ],
+  //},
+];
+
+const otherWriting = [
+  //{
+  //  year: "2022",
+  //  title: "Technical Report or Course Project Report Title",
+  //  authors: "Your Name",
+  //  venue: "Course project / technical report",
+  //  note: "Use this section for class projects, technical reports, or blog-series you consider substantial.",
+  //  links: [
+  //    { label: "Report", url: "#" },
+  //    { label: "Code", url: "#" },
+  //  ],
+  //},
+];
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <article class="pub-page">
+    <header class="pub-header page-header" data-section="top">
+      <h1 class="page-title">{pageTitle}</h1>
+    </header>
+
+    {preprints.length > 0 && (
+      <section class="pub-section">
+        <h2 class="pub-section-title">Preprints &amp; Drafts</h2>
+        <ul class="pub-list">
+          {preprints.map((p) => (
+            <li class="pub-item">
+              <div class="pub-year">{p.year}</div>
+              <div class="pub-entry">
+                <div class="pub-paper-title">{p.title}</div>
+                <div class="pub-meta">
+                  {p.authors}
+                  {" · "}
+                  {p.venue}
+                </div>
+                {p.note && <div class="pub-note">{p.note}</div>}
+                {p.links && p.links.length > 0 && (
+                  <div class="pub-links">
+                    {p.links.map((link) => (
+                      <a href={link.url}>{link.label}</a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {conferencePapers.length > 0 && (
+      <section class="pub-section">
+        <h2 class="pub-section-title">Conference Papers</h2>
+        <ul class="pub-list">
+          {conferencePapers.map((p) => (
+            <li class="pub-item">
+              <div class="pub-year">{p.year}</div>
+              <div class="pub-entry">
+                <div class="pub-paper-title">{p.title}</div>
+                <div class="pub-meta">
+                  {p.authors}
+                  {" · "}
+                  {p.venue}
+                </div>
+                {p.note && <div class="pub-note">{p.note}</div>}
+                {p.links && p.links.length > 0 && (
+                  <div class="pub-links">
+                    {p.links.map((link) => (
+                      <a href={link.url}>{link.label}</a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {journalPapers.length > 0 && (
+      <section class="pub-section">
+        <h2 class="pub-section-title">Journal Papers</h2>
+        <ul class="pub-list">
+          {journalPapers.map((p) => (
+            <li class="pub-item">
+              <div class="pub-year">{p.year}</div>
+              <div class="pub-entry">
+                <div class="pub-paper-title">{p.title}</div>
+                <div class="pub-meta">
+                  {p.authors}
+                  {" · "}
+                  {p.venue}
+                </div>
+                {p.note && <div class="pub-note">{p.note}</div>}
+                {p.links && p.links.length > 0 && (
+                  <div class="pub-links">
+                    {p.links.map((link) => (
+                      <a href={link.url}>{link.label}</a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {otherWriting.length > 0 && (
+      <section class="pub-section">
+        <h2 class="pub-section-title">Other Writing</h2>
+        <ul class="pub-list">
+          {otherWriting.map((p) => (
+            <li class="pub-item">
+              <div class="pub-year">{p.year}</div>
+              <div class="pub-entry">
+                <div class="pub-paper-title">{p.title}</div>
+                <div class="pub-meta">
+                  {p.authors}
+                  {" · "}
+                  {p.venue}
+                </div>
+                {p.note && <div class="pub-note">{p.note}</div>}
+                {p.links && p.links.length > 0 && (
+                  <div class="pub-links">
+                    {p.links.map((link) => (
+                      <a href={link.url}>{link.label}</a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </article>
+
+  <style>
+    .pub-page {
+      font-size: 0.95rem;
+    }
+
+    .pub-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .pub-title {
+      font-size: 1.8rem;
+      margin: 0 0 0.5rem;
+    }
+
+    .pub-intro {
+      margin: 0 0 0.75rem;
+      color: #4b5563;
+    }
+
+    .pub-intro a {
+      text-decoration: none;
+      color: #4c1d95;
+    }
+
+    .pub-intro a:hover {
+      text-decoration: underline;
+    }
+
+    .pub-section {
+      margin-top: 1.75rem;
+    }
+
+    .pub-section-title {
+      font-size: 1.2rem;
+      margin: 0 0 0.75rem;
+      color: #4c1d95;
+    }
+
+    .pub-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .pub-item {
+      display: flex;
+      gap: 0.75rem;
+      padding: 0.4rem 0;
+    }
+
+    .pub-year {
+      font-size: 0.9rem;
+      color: #6b7280;
+      min-width: 3.5rem; /* like a year column */
+    }
+
+    .pub-entry {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .pub-paper-title {
+      font-weight: 600;
+      margin-bottom: 0.15rem;
+    }
+
+    .pub-meta {
+      font-size: 0.9rem;
+      color: #4b5563;
+    }
+
+    .pub-note {
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin-top: 0.25rem;
+    }
+
+    .pub-links {
+      margin-top: 0.35rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      font-size: 0.85rem;
+    }
+
+    .pub-links a {
+      text-decoration: none;
+      padding: 0.1rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid #c4b5fd;
+      color: #4c1d95;
+      transition:
+        background-color 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+    }
+
+    .pub-links a:hover {
+      background-color: #ede9fe;
+      border-color: #a78bfa;
+      color: #2e1065;
+    }
+
+    @media (max-width: 640px) {
+      .pub-item {
+        flex-direction: column;
+      }
+
+      .pub-year {
+        min-width: auto;
+      }
+    }
+
+    /* Dark mode tweaks to match your theme */
+    html.dark .pub-intro {
+      color: #d1d5db;
+    }
+
+    html.dark .pub-section-title {
+      color: #f3e8ff;
+    }
+
+    html.dark .pub-year {
+      color: #9ca3af;
+    }
+
+    html.dark .pub-meta {
+      color: #d1d5db;
+    }
+
+    html.dark .pub-note {
+      color: #9ca3af;
+    }
+
+    html.dark .pub-links a {
+      border-color: #a78bfa;
+      color: #e9d5ff;
+    }
+
+    html.dark .pub-links a:hover {
+      background-color: rgba(168, 85, 247, 0.3);
+      border-color: #c4b5fd;
+      color: #f9fafb;
+    }
+  </style>
+</BaseLayout>

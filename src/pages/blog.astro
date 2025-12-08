@@ -3,27 +3,163 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const modules = import.meta.glob('./blogs/*.md', { eager: true });
 
-const posts = Object.entries(modules).map(([path, mod]) => {
-  const frontmatter = (mod as any).frontmatter ?? {};
+type Post = {
+  title: string;
+  url: string;
+  dateText: string;
+  ts: number;
+  description?: string;
+};
 
-  const title =
-    frontmatter.title ??
-    path.replace('./blogs/', '').replace('.md', '');
+const posts: Post[] = Object.entries(modules)
+  .map(([path, mod]) => {
+    const m = mod as any;
+    const frontmatter = m.frontmatter ?? {};
 
-  const url = path.replace('./', '/').replace('.md', '/');
+    const title =
+      frontmatter.title ??
+      path.replace('./blogs/', '').replace('.md', '');
 
-  return { title, url };
-});
+    const url = path.replace('./', '/').replace('.md', '/');
 
-const pageTitle = 'Blogs';
+    const rawDate = frontmatter.pubDate;
+    const dateObj = rawDate ? new Date(rawDate) : null;
+    const ts =
+      dateObj && !Number.isNaN(dateObj.getTime())
+        ? dateObj.getTime()
+        : 0;
+
+    const dateText = dateObj
+      ? dateObj.toLocaleDateString('en-US')
+      : '';
+
+    const description = frontmatter.description ?? '';
+
+    return { title, url, dateText, ts, description };
+  })
+  .sort((a, b) => b.ts - a.ts);
+
+const pageTitle = 'Blog';
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <ul>
-    {posts.map((post) => (
-      <li>
-        <a href={post.url}>{post.title}</a>
-      </li>
-    ))}
-  </ul>
+  <article class="blog-page page-wrapper">
+    <header class="page-header">
+      <h1 class="page-title">{pageTitle}</h1>
+    </header>
+
+    {posts.length === 0 ? (
+      <p>No posts yet. I will write something soon 👀</p>
+    ) : (
+      <ul class="blog-list">
+        {posts.map((post) => (
+          <li class="blog-item">
+            {post.dateText && (
+              <span class="blog-date">{post.dateText}</span>
+            )}
+            <div class="blog-main">
+              <a href={post.url} class="blog-link">
+                {post.title}
+              </a>
+              {post.description && (
+                <p class="blog-desc">{post.description}</p>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    )}
+  </article>
+
+  <style>
+    .blog-page {
+      font-size: 0.95rem;
+    }
+
+    .blog-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .blog-item {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid #e5e7eb;
+      align-items: baseline;
+    }
+
+    .blog-item:last-child {
+      border-bottom: none;
+    }
+
+    .blog-date {
+      font-size: 0.85rem;
+      color: #6b7280;
+      min-width: 7.5rem;
+    }
+
+    .blog-main {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .blog-link {
+      text-decoration: none;
+      color: #4c1d95;
+      font-weight: 600;
+      border-radius: 999px;
+      padding: 0.1rem 0.3rem;
+      transition:
+        background-color 0.15s ease,
+        color 0.15s ease;
+    }
+
+    .blog-link:hover,
+    .blog-link:focus {
+      background-color: #ede9fe;
+      color: #2e1065;
+    }
+
+    .blog-desc {
+      margin: 0.25rem 0 0;
+      color: #4b5563;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 640px) {
+      .blog-item {
+        align-items: flex-start;
+      }
+
+      .blog-date {
+        min-width: 100%;
+      }
+    }
+
+    /* 暗色模式 */
+    html.dark .blog-item {
+      border-bottom-color: #111827;
+    }
+
+    html.dark .blog-date {
+      color: #9ca3af;
+    }
+
+    html.dark .blog-desc {
+      color: #d1d5db;
+    }
+
+    html.dark .blog-link {
+      color: #c4b5fd;
+    }
+
+    html.dark .blog-link:hover,
+    html.dark .blog-link:focus {
+      background-color: rgba(168, 85, 247, 0.25);
+      color: #f9fafb;
+    }
+  </style>
 </BaseLayout>
