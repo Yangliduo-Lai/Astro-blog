@@ -1,75 +1,483 @@
 @import "tailwindcss";
-@import '@fontsource-variable/noto-sans-sc';
+@import "@fontsource-variable/noto-sans-sc";
 
-/* 一级标题 */
-h1 {
-    color:#3c096c;
-    font-size: var(--text-4xl); /* 2.25rem (36px) */ 
-    line-height: var(--text-4xl--line-height); /* calc(2.5 / 2.25) */
-    line-height: 1.5;
+/* ===== 文章页：两栏布局（左正文 + 右侧边栏） ===== */
+
+.post-header {
+  margin-top: 1.25rem;
+  margin-bottom: 1rem;
 }
 
-/* 二级标题 */
-h2 {
-    color:#3c096c;
-    font-size: var(--text-3xl); /* 1.875rem (30px) */ 
-    line-height: var(--text-3xl--line-height); /* calc(2.25 / 1.875) */
-    line-height: 1.5;
+.post-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 10rem;
+  gap: 2rem;
+  align-items: start;
 }
 
-/* 三级标题 */
-h3 {
-    color:#3c096c;
-    font-size: var(--text-xl); /* 1.25rem (20px) */ 
-    line-height: var(--text-xl--line-height); /* calc(1.75 / 1.25) */
-    line-height: 1.5;
+/* 正文列 */
+.post-main {
+  min-width: 0;
 }
 
-/* description */
-.description {
-    color:#4f518c;
-    font-style: italic;
+/* 侧边栏：sticky + 内部可滚动 */
+.post-aside {
+  position: sticky;
+  top: 1rem;
+  max-height: calc(100vh - 2rem);
+  overflow: auto;
+
+  padding-left: 1rem;
+  border-left: 1px solid #111827;
 }
 
-/* date */
-.date {
-    color:#4f518c;
-    line-height: 1.5;
+/* 侧边栏块 */
+.aside-block + .aside-block {
+  margin-top: 1.25rem;
 }
 
-/* tag */
+.aside-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+
+  color: rgba(255, 255, 255, 0.92);
+  margin-bottom: 0.6rem;
+}
+
+/* ===== TOC（滚动导航） ===== */
+
+.toc-empty {
+  margin: 0;
+  color: rgba(209, 213, 219, 0.75);
+  font-size: 0.85rem;
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* 每条之间更紧凑一点 */
+.toc-item {
+  margin: 0.18rem 0;
+  line-height: 1.35;
+}
+
+/* 深度缩进 */
+.toc-item.depth-2 { padding-left: 0.9rem; }
+.toc-item.depth-3 { padding-left: 1.8rem; }
+
+
+/* 链接基础样式 */
+.toc-link {
+  display: inline-block;
+  text-decoration: none;
+
+  color: rgba(229, 231, 235, 0.78);
+  transition: color 0.15s ease;
+}
+
+
+.toc-link:hover,
+.toc-link:focus {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.toc-link.is-active {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* ✅ 不同深度不同字号/字重（对应 h1/h2/h3） */
+.toc-item.depth-1 .toc-link {
+  font-size: 0.92rem;
+  font-weight: 650;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.toc-item.depth-2 .toc-link {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.toc-item.depth-3 .toc-link {
+  font-size: 0.8rem;
+  font-weight: 450;
+  color: rgba(229, 231, 235, 0.7);
+}
+/* ===== TOC 折叠（details/summary） ===== */
+.toc-details {
+  margin: 0;
+}
+
+.toc-summary {
+  list-style: none;
+  cursor: pointer;
+
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+
+  color: rgba(255, 255, 255, 0.92);
+  padding: 0.2rem 0;
+}
+
+/* 去掉原生 marker */
+.toc-summary::-webkit-details-marker {
+  display: none;
+}
+
+/* summary 右侧箭头 */
+.toc-summary::after {
+  content: "▾";
+  float: right;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* 收起时箭头方向变化 */
+.toc-details:not([open]) .toc-summary::after {
+  content: "▸";
+}
+
+.toc-empty {
+  margin: 0.5rem 0 0;
+  color: rgba(209, 213, 219, 0.75);
+  font-size: 0.85rem;
+}
+
+.toc-tree,
+.toc-subtree {
+  list-style: none;
+  padding: 0;
+  margin: 0.55rem 0 0;
+}
+
+.toc-node {
+  margin: 0.18rem 0;
+}
+
+/* 分支（有 children 的）用 details 折叠 */
+.toc-branch {
+  margin: 0;
+}
+
+.toc-branch-summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between; 
+}
+
+.toc-branch-summary::-webkit-details-marker {
+  display: none;
+}
+
+/* 分支左侧箭头 */
+.toc-branch-summary::after {
+  content: "▸";
+  color: rgba(255, 255, 255, 0.45);
+  flex: 0 0 auto;
+  transform: translateY(-1px);
+}
+
+.toc-branch[open] > .toc-branch-summary::after {
+  content: "▾";
+}
+
+/* 链接基础样式 */
+.toc-link {
+  text-decoration: none;
+  color: rgba(229, 231, 235, 0.78);
+  transition: color 0.15s ease;
+  display: inline-block;
+}
+
+/* hover/focus 只变亮 */
+.toc-link:hover,
+.toc-link:focus {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+
+/* active（如果你以后又启用脚本） */
+.toc-link.is-active {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* ✅ 不同层级不同字号/字重 */
+.depth-1 .toc-link {
+  font-size: 0.92rem;
+  font-weight: 650;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.depth-2 .toc-link {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.depth-3 .toc-link {
+  font-size: 0.8rem;
+  font-weight: 450;
+  color: rgba(229, 231, 235, 0.7);
+}
+
+/* ✅ 子树缩进（靠嵌套实现 h3 收进 h2 / h2 收进 h1 的视觉） */
+.toc-subtree {
+  margin-top: 0.35rem;
+  padding-left: 0.9rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ===== Tags：白色系 chip（不加背景，只边框+文字） ===== */
+
 .tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
 }
 
-.tag a {
-  text-decoration: none;
-  color: inherit;
-}
+/* 清掉 p 默认 margin */
 .tag {
+  margin: 0;
+  display: inline-flex;
+}
+
+.tag a {
   display: inline-flex;
   align-items: center;
-  padding: 0.35em 0.9em;
-  font-size: 0.95rem;
+
+  padding: 0.18rem 0.55rem;
+  font-size: 0.8rem;
   font-weight: 500;
 
-  background: #f8f5ff;
-  border: 1px solid #ddd6fe;
-  color: #4c1d95;
+  text-decoration: none;
+  color: rgba(229, 231, 235, 0.82);
 
-  border-radius: 0.55em;
-  transition: all 0.18s ease;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  background: transparent;
+
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+/* ✅ 只变色（不加背景） */
+.tag a:hover,
+.tag a:focus {
+  background: transparent;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.tag a:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.12);
+}
+
+/* ===== 小屏：隐藏 TOC + Tags，并改为单列 ===== */
+@media (max-width: 900px) {
+  .toc {
+    display: none;
+  }
+
+  .tags {
+    display: none;
+  }
+
+  .post-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .post-aside {
+    display: none; /* ✅ 侧栏整体隐藏（因为 toc+tags 都隐藏了） */
+  }
+}
+
+/* =========
+   文章正文排版
+   ========= */
+
+h1 {
+  color: #A78BFA;
+  font-size: var(--text-4xl);
+  line-height: 1.25;
+  margin: 0.25em 0 0.45em;
+}
+
+h2 {
+  color: #A78BFA;
+  font-size: var(--text-3xl);
+  line-height: 1.3;
+  margin: 1.2em 0 0.5em;
+}
+
+h3 {
+  color: #A78BFA;
+  font-size: var(--text-xl);
+  line-height: 1.35;
+  margin: 1em 0 0.4em;
 }
 
 
-/* Hover effect */
-.tag:hover {
-  background: #ede9fe;
-  border-color: #c4b5fd;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(76, 29, 149, 0.18);
+/* date */
+.date {
+  color: rgba(209, 213, 219, 0.75);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  opacity: 1;
 }
 
-/* languages */
+/* =========
+   列表样式：1. / - （有序/无序）
+   ========= */
+
+/* 无序列表（-） */
+.post-main ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin: 0.75rem 0;
+}
+
+.post-main ul li {
+  margin: 0.25rem 0;
+  color: rgba(229, 231, 235, 0.88);
+}
+
+/* 圆点颜色更淡 */
+.post-main ul li::marker {
+  color: rgba(209, 213, 219, 0.55);
+}
+
+/* 有序列表（1.） */
+.post-main ol {
+  list-style: decimal;
+  padding-left: 1.35rem;
+  margin: 0.75rem 0;
+}
+
+.post-main ol li {
+  margin: 0.25rem 0;
+  color: rgba(229, 231, 235, 0.88);
+}
+
+/* 序号颜色更淡 */
+.post-main ol li::marker {
+  color: rgba(209, 213, 219, 0.65);
+  font-weight: 600;
+}
+
+/* 嵌套列表：缩进更小一点，间距更紧凑 */
+.post-main li > ul,
+.post-main li > ol {
+  margin: 0.2rem 0 0.2rem;
+  padding-left: 2rem;
+}
+
+/* 列表里的段落不要太松（避免一行占太高） */
+.post-main li p {
+  margin: 0.2rem 0;
+}
+
+
+/* =========
+   代码块：增加语言标签（data-language）
+   ========= */
+@layer components {
+  .astro-code {
+    background-color: #1a1b26;
+    font-size: 0.9rem;
+
+    border-color: theme("colors.zinc.700");
+    border-width: 1px;
+    border-radius: theme("borderRadius.lg");
+
+    padding: theme("spacing.4");
+    margin-top: theme("spacing.6");
+    margin-bottom: theme("spacing.6");
+    width: 100%;
+    display: block;
+    overflow: hidden;
+
+    /* 为语言标签定位 */
+    position: relative;
+  }
+
+  /* 如果有语言信息，为顶部标签预留空间 */
+  .astro-code[data-language],
+  .astro-code[data-lang] {
+    padding-top: calc(theme("spacing.4") + 1.6rem);
+  }
+
+  /* 语言标签（优先读 data-language，其次 data-lang） */
+  .astro-code[data-language]::before {
+    content: attr(data-language);
+  }
+  .astro-code[data-lang]::before {
+    content: attr(data-lang);
+  }
+
+  .astro-code[data-language]::before,
+  .astro-code[data-lang]::before {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.75rem;
+
+    /* 常见风格：小、紧凑、等宽 */
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+      "Courier New", monospace;
+    font-size: 0.72rem;
+    line-height: 1;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    padding: 0.28rem 0.55rem;
+    border-radius: 0.55rem;
+
+    
+    /* 常见暗色标签：半透明底 + 细边框 + 阴影 */
+    color: rgba(255, 255, 255, 0.82);
+    background: rgba(15, 23, 42, 0.72); /* slate-900 近似 */
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  }
+
+  .astro-code pre {
+    @apply m-0 overflow-x-auto leading-relaxed text-sm;
+  }
+
+  .astro-code code {
+    @apply font-mono whitespace-pre;
+  }
+}
+
+/* =========
+   行内代码（inline code）
+   不影响 .astro-code 代码块
+   ========= */
+.post-main :not(pre) > code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+
+  font-size: 0.88em;
+  padding: 0.12em 0.35em;
+  border-radius: 0.4em;
+
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+
+  /* 让它在中文/英文混排里更顺眼 */
+  letter-spacing: 0.01em;
+  white-space: break-spaces;
+}
+
+

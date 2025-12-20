@@ -98,11 +98,7 @@ const platinumGames = [
         ))}
       </header>
 
-      <section
-        id="education"
-        class="about-section"
-        data-section="education"
-      >
+      <section id="education" class="about-section" data-section="education">
         <h3 class="about-section-title">Education</h3>
         <ul class="edu-list">
           {education.map((item) => (
@@ -117,11 +113,7 @@ const platinumGames = [
         </ul>
       </section>
 
-      <section
-        id="awards"
-        class="about-section"
-        data-section="awards"
-      >
+      <section id="awards" class="about-section" data-section="awards">
         <h3 class="about-section-title">Awards</h3>
         {awards.length === 0 ? (
           <p class="about-note">
@@ -139,11 +131,7 @@ const platinumGames = [
         )}
       </section>
 
-      <section
-        id="interests"
-        class="about-section"
-        data-section="interests"
-      >
+      <section id="interests" class="about-section" data-section="interests">
         <h3 class="about-section-title">Personal Interests</h3>
         <ul class="about-list">
           {interests.map((item) => (
@@ -231,6 +219,24 @@ const platinumGames = [
   </script>
 
   <style>
+    /* ========== Dark-only theme variables（可选，但更好维护）========== */
+    :root {
+      --panel-bg: #020617;
+      --panel-border: #111827;
+
+      --text-strong: #f9fafb;
+      --text: #e5e7eb;
+      --text-dim: #d1d5db;
+      --text-muted: #9ca3af;
+
+      --hover-bg: #111827;
+      --active-bg: rgba(168, 85, 247, 0.4);
+
+      --scrollbar-thumb: #6d28d9;
+
+      --card-border: #1f2937;
+    }
+
     .about-layout {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 220px);
@@ -259,7 +265,7 @@ const platinumGames = [
       }
     }
 
-    /* TOC 样式（明亮模式：紫色主题） */
+    /* TOC（黑暗模式默认） */
     .toc {
       font-size: 0.85rem;
       position: sticky;
@@ -267,8 +273,8 @@ const platinumGames = [
       align-self: flex-start;
       padding: 0.75rem;
       border-radius: 0.75rem;
-      background-color: #f5f3ff;
-      border: 1px solid #e4ddff;
+      background-color: var(--panel-bg);
+      border: 1px solid var(--panel-border);
     }
 
     .toc-title {
@@ -276,7 +282,7 @@ const platinumGames = [
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: #7c3aed;
+      color: var(--text);
       margin-bottom: 0.6rem;
     }
 
@@ -295,7 +301,7 @@ const platinumGames = [
       padding: 0.3rem 0.7rem;
       border-radius: 999px;
       text-decoration: none;
-      color: #4b5563;
+      color: var(--text-muted);
       transition:
         background-color 0.15s ease,
         color 0.15s ease;
@@ -303,16 +309,16 @@ const platinumGames = [
 
     .toc-link:hover,
     .toc-link:focus {
-      background-color: #ede9fe;
-      color: #2e1065;
+      background-color: var(--hover-bg);
+      color: var(--text-strong);
     }
 
     .toc-link.is-active {
-      background-color: #4c1d95;
-      color: #f9fafb;
+      background-color: var(--active-bg);
+      color: var(--text-strong);
     }
 
-    /* 正文样式 */
+    /* 正文样式（黑暗模式默认） */
     .about-header {
       margin-bottom: 1.5rem;
     }
@@ -329,7 +335,7 @@ const platinumGames = [
 
     .about-affiliation {
       margin: 0;
-      color: #6b7280;
+      color: var(--text-muted);
     }
 
     .about-contact {
@@ -352,7 +358,7 @@ const platinumGames = [
     .about-section-title {
       font-size: 1.1rem;
       margin: 0 0 0.75rem;
-      color: #4c1d95;
+      color: #f3e8ff; /* 保留你原 dark 的标题色 */
     }
 
     .about-section p {
@@ -375,12 +381,12 @@ const platinumGames = [
 
     .about-award-desc {
       font-size: 0.9rem;
-      color: #4b5563;
+      color: var(--text-dim);
     }
 
     .about-note {
       font-size: 0.85rem;
-      color: #6b7280;
+      color: var(--text-muted);
       margin-top: 0.75rem;
     }
 
@@ -398,7 +404,7 @@ const platinumGames = [
 
     .edu-period {
       font-size: 0.85rem;
-      color: #6b7280;
+      color: var(--text-muted);
       min-width: 8.5rem;
     }
 
@@ -408,10 +414,10 @@ const platinumGames = [
 
     .edu-detail {
       font-size: 0.9rem;
-      color: #4b5563;
+      color: var(--text-dim);
     }
 
-    /* 白金游戏横向滚动 */
+    /* 白金游戏横向滚动（黑暗模式默认） */
     .platinum-wrapper {
       margin-top: 0.5rem;
       margin-left: 1.25rem;
@@ -434,7 +440,7 @@ const platinumGames = [
     }
 
     .platinum-scroll::-webkit-scrollbar-thumb {
-      background: #d4cafe;
+      background: var(--scrollbar-thumb);
       border-radius: 999px;
     }
 
@@ -447,8 +453,8 @@ const platinumGames = [
     .platinum-cover-wrap {
       border-radius: 0.75rem;
       overflow: hidden;
-      border: 1px solid #e5e7eb;
-      background-color: #f9fafb;
+      border: 1px solid var(--card-border);
+      background-color: var(--panel-bg);
     }
 
     .platinum-cover {
@@ -469,62 +475,7 @@ const platinumGames = [
 
     .platinum-game-platform {
       margin-top: 0.1rem;
-      color: #6b7280;
-    }
-
-    /* Dark mode */
-    html.dark .toc {
-      background-color: #020617;
-      border-color: #111827;
-    }
-
-    html.dark .toc-title {
-      color: #e5e7eb;
-    }
-
-    html.dark .toc-link {
-      color: #9ca3af;
-    }
-
-    html.dark .toc-link:hover,
-    html.dark .toc-link:focus {
-      background-color: #111827;
-      color: #f9fafb;
-    }
-
-    html.dark .toc-link.is-active {
-      background-color: rgba(168, 85, 247, 0.4);
-      color: #f9fafb;
-    }
-
-    html.dark .about-section-title {
-      color: #f3e8ff;
-    }
-
-    html.dark .about-affiliation {
-      color: #9ca3af;
-    }
-
-    html.dark .about-award-desc,
-    html.dark .edu-detail {
-      color: #d1d5db;
-    }
-
-    html.dark .about-note {
-      color: #9ca3af;
-    }
-
-    html.dark .platinum-cover-wrap {
-      border-color: #1f2937;
-      background-color: #020617;
-    }
-
-    html.dark .platinum-game-platform {
-      color: #9ca3af;
-    }
-
-    html.dark .platinum-scroll::-webkit-scrollbar-thumb {
-      background: #6d28d9;
+      color: var(--text-muted);
     }
   </style>
 </BaseLayout>

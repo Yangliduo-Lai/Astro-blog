@@ -1,59 +1,48 @@
 @import "tailwindcss";
 
-@layer components {
-  .astro-code {
-    background-color: #1a1b26 !important;
-    border-color: theme('colors.zinc.700');
-    border-width: 1px;
-    border-radius: theme('borderRadius.lg');
-    padding: theme('spacing.4');
-    margin-top: theme('spacing.6');
-    margin-bottom: theme('spacing.6');
-    width: 100%;
-    display: block;
-    overflow: hidden;
-  }
-  /* 内部 <pre> 标签 */
-  .astro-code pre {
-    @apply m-0                     /* 去掉默认 margin */
-           overflow-x-auto         /* 支持横向滚动 */
-           leading-relaxed         /* 行高 */
-           text-sm;                /* 字体大小 */
-  }
-  /* 内部 <code> 标签 */
-  .astro-code code {
-    @apply font-mono               /* 使用等宽字体 */
-           whitespace-pre;         /* 保留空白 */
-  }
+/* 让浏览器原生控件也按暗色渲染（表单、滚动条等） */
+:root {
+  color-scheme: dark;
 }
 
-/* ===== 浅色模式 ===== */
-
+/* 基底背景 + 默认文字色 */
 html {
-  background-color: #f3e8ff; /* 浅紫背景 */
+  background-color: #02001a; /* 深紫调背景 */
+  color: #ffffff;
 }
 
 body {
-  color: black;
+  color: #ffffff;
   font-family: 'Noto Sans SC Variable', sans-serif;
-  font-weight: 400;
   margin: 0 auto;
   width: 100%;
-  max-width: 90ch;      /* ✅ 从 80ch 改成 90ch：稍微放宽一点 */
+  max-width: 90ch;
   padding: 1rem;
   line-height: 2;
 }
 
-/* 导航样式 */
-.menu {
-  background-color: #4c1d95; /* 深紫 */
-  border: none;
-  color: #fff;
-  font-size: 1.2rem;
-  font-weight: bold;
-  padding: 5px 10px;
+/* 段落 */
+p,
+li {
+  color: #d1d5db;
 }
 
+/* 标题更亮、带紫调 */
+h1,
+h2,
+h3,
+h4 {
+  color: #f3e8ff;
+}
+
+/* 全局链接默认颜色（柔和紫） */
+a {
+  color: #c4b5fd;
+}
+
+/* =========================
+   导航样式（暗色固定）
+   ========================= */
 .nav-links {
   width: 100%;
   display: none;
@@ -63,23 +52,25 @@ body {
 .nav-links a {
   display: block;
   text-align: center;
-  padding: 10px 0;
-  text-decoration: none;
-  font-size: 1.2rem;
+  padding: 5px 0;
+  font-size: 1.1rem;
   font-weight: bold;
   text-transform: uppercase;
-  color: #4c1d95;
+
+  /* 暗色固定：导航链接更亮 */
+  color: #f5f3ff;
+
   border-radius: 999px;
   transition:
     background-color 0.18s ease,
     color 0.18s ease;
 }
 
-/* 浅色主题下的 hover */
+/* 暗色固定 hover（淡紫光晕 + 更亮的紫字） */
 .nav-links a:hover,
 .nav-links a:focus {
-  background-color: #e9d5ff; /* 浅紫 */
-  color: #4c1d95;
+  background-color: rgba(168, 85, 247, 0.22);
+  color: #e9d5ff;
 }
 
 :has(.menu[aria-expanded="true"]) .nav-links {
@@ -88,95 +79,32 @@ body {
 
 @media screen and (min-width: 636px) {
   .nav-links {
-    margin-left: 5em;
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: static;
     width: auto;
-    background: none;
   }
 
   .nav-links a {
     display: inline-block;
     padding: 15px 20px;
   }
-
-  .menu {
-    display: none;
-  }
 }
 
-/* ===== 暗色模式 ===== */
+/* =========================
+   通用页面样式
+   ========================= */
 
-html.dark {
-  background-color: #02001a; /* 深紫调背景 */
-  color: #f9fafb;
-}
-
-/* 覆盖 body 的黑色，让暗色下正文变成浅灰 */
-.dark body {
-  color: #e5e7eb;
-}
-
-/* 段落 / 列表稍微再暗一点，避免太刺眼 */
-.dark p {
-  color: #d1d5db;
-}
-
-.dark li {
-  color: #d1d5db;
-}
-
-/* 标题比正文明显更亮、带一点紫调 */
-.dark h1,
-.dark h2,
-.dark h3,
-.dark h4 {
-  color: #f3e8ff;
-}
-
-.dark .menu {
-  background-color: #f5f3ff;
-  color: #2e1065;
-}
-
-/* 深色主题下：全局链接默认颜色（柔和紫） */
-.dark a {
-  color: #c4b5fd;
-}
-
-/* 深色主题下：导航链接默认颜色（比普通链接更亮） */
-.dark .nav-links a {
-  color: #f5f3ff;
-}
-
-/* 深色主题下：导航 hover 效果（淡紫光晕 + 更亮的紫字） */
-.dark .nav-links a:hover,
-.dark .nav-links a:focus {
-  background-color: rgba(168, 85, 247, 0.22);
-  color: #e9d5ff;
-}
-
-/* 通用页面外边距 & 标题样式（about / publications / blog / links 共用） */
 .page-wrapper {
-  margin-top: 1.75rem;        /* 顶部统一留一点空白 */
+  margin-top: 1.75rem;
 }
 
 .page-header {
-  margin-bottom: 1.5rem;      /* 标题下面统一间距 */
+  margin-bottom: 1.5rem;
 }
 
 .page-title {
   font-size: 1.8rem;
   margin: 0 0 0.5rem;
-}
-
-.page-subtitle {
-  margin: 0;
-  font-size: 0.95rem;
-  color: #4b5563;
-}
-
-/* 深色模式下副标题颜色 */
-html.dark .page-subtitle {
-  color: #d1d5db;
 }

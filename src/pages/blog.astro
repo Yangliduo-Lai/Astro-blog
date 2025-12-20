@@ -8,7 +8,6 @@ type Post = {
   url: string;
   dateText: string;
   ts: number;
-  description?: string;
 };
 
 const posts: Post[] = Object.entries(modules)
@@ -39,7 +38,7 @@ const posts: Post[] = Object.entries(modules)
   })
   .sort((a, b) => b.ts - a.ts);
 
-const pageTitle = 'Blog';
+const pageTitle = 'Blogs';
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -61,9 +60,6 @@ const pageTitle = 'Blog';
               <a href={post.url} class="blog-link">
                 {post.title}
               </a>
-              {post.description && (
-                <p class="blog-desc">{post.description}</p>
-              )}
             </div>
           </li>
         ))}
@@ -71,56 +67,38 @@ const pageTitle = 'Blog';
     )}
   </article>
 
-  <style>
-    .blog-page {
-      font-size: 0.95rem;
-    }
+<style>
+  .blog-item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.6rem 0;
+    align-items: baseline;
+  }
 
-    .blog-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
+  .blog-date {
+    font-size: 0.85rem;
+    color: #6b7280;
+    min-width: 7.5rem;
+  }
 
-    .blog-item {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      padding: 0.6rem 0;
-      border-bottom: 1px solid #e5e7eb;
-      align-items: baseline;
-    }
+  .blog-main {
+    min-width: 0;
+    flex: 1;
+  }
 
-    .blog-item:last-child {
-      border-bottom: none;
-    }
-
-    .blog-date {
-      font-size: 0.85rem;
-      color: #6b7280;
-      min-width: 7.5rem;
-    }
-
-    .blog-main {
-      min-width: 0;
-      flex: 1;
-    }
-
-    .blog-link {
-      text-decoration: none;
-      color: #4c1d95;
-      font-weight: 600;
-      border-radius: 999px;
-      padding: 0.1rem 0.3rem;
-      transition:
-        background-color 0.15s ease,
-        color 0.15s ease;
-    }
+  .blog-link {
+    color: #ffffff;
+    font-weight: 400;
+    padding: 0.1rem 0.3rem;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease;
+  }
 
     .blog-link:hover,
     .blog-link:focus {
-      background-color: #ede9fe;
-      color: #2e1065;
+      color: #f3e8ff;
     }
 
     .blog-desc {
@@ -137,29 +115,6 @@ const pageTitle = 'Blog';
       .blog-date {
         min-width: 100%;
       }
-    }
-
-    /* 暗色模式 */
-    html.dark .blog-item {
-      border-bottom-color: #111827;
-    }
-
-    html.dark .blog-date {
-      color: #9ca3af;
-    }
-
-    html.dark .blog-desc {
-      color: #d1d5db;
-    }
-
-    html.dark .blog-link {
-      color: #c4b5fd;
-    }
-
-    html.dark .blog-link:hover,
-    html.dark .blog-link:focus {
-      background-color: rgba(168, 85, 247, 0.25);
-      color: #f9fafb;
     }
   </style>
 </BaseLayout>

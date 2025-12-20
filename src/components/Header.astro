@@ -1,26 +1,9 @@
 ---
-  // 头部导航相关组件
-  import Navigation from './Navigation.astro';
-  import ThemeIcon from './ThemeIcon.astro';
+// 头部导航相关组件
+import Navigation from './Navigation.astro';
 ---
 
 <!-- 整个网站头部 -->
 <header>
-  <!-- 导航栏（唯一一个 nav） -->
-  <nav class="header-nav">
-    <!-- 左侧：主题切换图标组件 -->
-    <ThemeIcon />
-
-    <!-- 右侧：主导航链接 -->
-    <Navigation />
-  </nav>
+  <Navigation />
 </header>
-
-<style>
-  /* 让导航里的内容左右拉开排列并垂直居中 */
-  .header-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-</style>
