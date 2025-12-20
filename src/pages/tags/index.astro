@@ -2,8 +2,10 @@
 // src/pages/tags/index.astro
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-// 读取 blogs 目录下的所有文章
-const modules = import.meta.glob('../blogs/*.md', { eager: true });
+// 读取 blogs, notes 目录下的所有文章
+const modules = import.meta.glob(['../blogs/*.md', '../notes/*.md'], { 
+  eager: true 
+});
 const allPosts = Object.values(modules) as any[];
 
 // 收集所有 tag，处理没有 tags 的情况

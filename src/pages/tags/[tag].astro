@@ -4,7 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
   const allPosts = Object.values(
-    import.meta.glob('../blogs/*.md', { eager: true })
+    import.meta.glob(['../blogs/*.md', '../notes/*.md'], { eager: true })
   ) as any[];
 
   // 收集所有标签（没有 tags 的文章就当成空数组）

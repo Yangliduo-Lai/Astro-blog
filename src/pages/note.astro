@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const modules = import.meta.glob('./notes/*.md', { eager: true });
+
+type Post = {
+  title: string;
+  url: string;
+  dateText: string;
+  ts: number;
+};
+
+const posts: Post[] = Object.entries(modules)
+  .map(([path, mod]) => {
+    const m = mod as any;
+    const frontmatter = m.frontmatter ?? {};
+
+    const title =
+      frontmatter.title ??
+      path.replace('./notes/', '').replace('.md', '');
+
+    const url = path.replace('./', '/').replace('.md', '/');
+
+    const rawDate = frontmatter.pubDate;
+    const dateObj = rawDate ? new Date(rawDate) : null;
+    const ts =
+      dateObj && !Number.isNaN(dateObj.getTime())
+        ? dateObj.getTime()
+        : 0;
+
+    const dateText = dateObj
+      ? dateObj.toLocaleDateString('en-US')
+      : '';
+
+    const description = frontmatter.description ?? '';
+
+    return { title, url, dateText, ts, description };
+  })
+  .sort((a, b) => b.ts - a.ts);
+
+const pageTitle = 'Notes';
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <article class="note-page page-wrapper">
+    <header class="page-header">
+      <h1 class="page-title">{pageTitle}</h1>
+    </header>
+
+    {posts.length === 0 ? (
+      <p>No posts yet. I will write something soon 👀</p>
+    ) : (
+      <ul class="note-list">
+        {posts.map((post) => (
+          <li class="note-item">
+            {post.dateText && (
+              <span class="note-date">{post.dateText}</span>
+            )}
+            <div class="note-main">
+              <a href={post.url} class="note-link">
+                {post.title}
+              </a>
+            </div>
+          </li>
+        ))}
+      </ul>
+    )}
+  </article>
+
+<style>
+  .note-item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.6rem 0;
+    align-items: baseline;
+  }
+
+  .note-date {
+    font-size: 0.85rem;
+    color: #6b7280;
+    min-width: 7.5rem;
+  }
+
+  .note-main {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .note-link {
+    color: #ffffff;
+    font-weight: 400;
+    padding: 0.1rem 0.3rem;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease;
+  }
+
+    .note-link:hover,
+    .note-link:focus {
+      color: #f3e8ff;
+    }
+
+    .note-desc {
+      margin: 0.25rem 0 0;
+      color: #4b5563;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 640px) {
+      .note-item {
+        align-items: flex-start;
+      }
+
+      .note-date {
+        min-width: 100%;
+      }
+    }
+  </style>
+</BaseLayout>

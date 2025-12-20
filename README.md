@@ -1,3 +1,7 @@
+
+netlify deploy --prod
+
+
 # Astro Starter Kit: Basics
 
 ```sh

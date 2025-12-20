@@ -1,0 +1,120 @@
+---
+/* 文章布局模版 */
+import BaseLayout from './BaseLayout.astro';
+import '../styles/blog.css';
+
+const { frontmatter } = Astro.props;
+
+type Heading = { depth: number; text: string; slug: string };
+type TocNode = Heading & { children: TocNode[] };
+
+const headings = (Astro.props.headings ?? []) as Heading[];
+const flat = headings.filter((h) => h.depth >= 1 && h.depth <= 3);
+
+function buildTocTree(items: Heading[]): TocNode[] {
+  const root: TocNode[] = [];
+  const stack: TocNode[] = [];
+
+  for (const h of items) {
+    const node: TocNode = { ...h, children: [] };
+
+    while (stack.length && stack[stack.length - 1].depth >= node.depth) {
+      stack.pop();
+    }
+
+    if (stack.length === 0) {
+      root.push(node);
+    } else {
+      stack[stack.length - 1].children.push(node);
+    }
+
+    stack.push(node);
+  }
+
+  return root;
+}
+
+const tocTree = buildTocTree(flat);
+---
+
+<BaseLayout pageTitle={frontmatter.title}>
+  <header class="post-header">
+    <div class="title">
+      <h1>{frontmatter.title}</h1>
+    </div>
+
+    <div class="date flex flex-wrap gap-1.5">
+      <span>创建时间：{frontmatter.pubDate.toString().slice(0, 10)}</span>
+      <span>最后修改时间：{frontmatter.lastUpdateDate.toString().slice(0, 10)}</span>
+    </div>
+  </header>
+
+  <div class="post-layout">
+    <main class="post-main">
+      <slot />
+    </main>
+
+    <aside class="post-aside" aria-label="Post sidebar">
+      {/* TOC：树状 + 可折叠 */}
+      <nav class="aside-block toc" aria-label="On this page">
+        <details class="toc-details" open>
+          <summary class="toc-summary">On this page</summary>
+
+          {tocTree.length === 0 ? (
+            <p class="toc-empty">No headings.</p>
+          ) : (
+            <ol class="toc-tree">
+              {tocTree.map((n) => (
+                <li class={`toc-node depth-${n.depth}`}>
+                  {n.children.length ? (
+                    <details class="toc-branch" open>
+                      <summary class="toc-branch-summary">
+                        <a class="toc-link" href={`#${n.slug}`}>{n.text}</a>
+                      </summary>
+
+                      <ol class="toc-subtree">
+                        {n.children.map((c) => (
+                          <li class={`toc-node depth-${c.depth}`}>
+                            {c.children.length ? (
+                              <details class="toc-branch" open>
+                                <summary class="toc-branch-summary">
+                                  <a class="toc-link" href={`#${c.slug}`}>{c.text}</a>
+                                </summary>
+
+                                <ol class="toc-subtree">
+                                  {c.children.map((d) => (
+                                    <li class={`toc-node depth-${d.depth}`}>
+                                      <a class="toc-link" href={`#${d.slug}`}>{d.text}</a>
+                                    </li>
+                                  ))}
+                                </ol>
+                              </details>
+                            ) : (
+                              <a class="toc-link" href={`#${c.slug}`}>{c.text}</a>
+                            )}
+                          </li>
+                        ))}
+                      </ol>
+                    </details>
+                  ) : (
+                    <a class="toc-link" href={`#${n.slug}`}>{n.text}</a>
+                  )}
+                </li>
+              ))}
+            </ol>
+          )}
+        </details>
+      </nav>
+
+      {/* Tags */}
+      <section class="aside-block" aria-label="Tags">
+        <div class="aside-title">Tags</div>
+        <div class="tags">
+          {frontmatter.tags.map((tag: string) => (
+            <p class="tag"><a href={`/tags/${tag}`}>{tag}</a></p>
+          ))}
+        </div>
+      </section>
+    </aside>
+  </div>
+</BaseLayout>
