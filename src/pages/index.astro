@@ -50,6 +50,7 @@ const publications = [
 
 // Load blog posts from src/pages/blogs/*.md
 const modules = import.meta.glob('./blogs/*.md', { eager: true });
+const noteModules = import.meta.glob('./notes/*.md', { eager: true });
 
 const posts = Object.entries(modules)
   .map(([path, mod]) => {
@@ -77,8 +78,35 @@ const posts = Object.entries(modules)
   // Newest first (posts without a date go last)
   .sort((a, b) => b.ts - a.ts);
 
+  const notePosts = Object.entries(noteModules)
+  .map(([path, mod]) => {
+    const m = mod as any;
+    const frontmatter = m.frontmatter ?? {};
+
+    const title =
+      frontmatter.title ??
+      path.replace('./blogs/', '').replace('.md', '');
+
+    const url = path.replace('./', '/').replace('.md', '/');
+
+    const rawDate = frontmatter.pubDate;
+    const dateObj = rawDate ? new Date(rawDate) : null;
+    const ts =
+      dateObj && !Number.isNaN(dateObj.getTime())
+        ? dateObj.getTime()
+        : 0;
+    const dateText = dateObj
+      ? dateObj.toLocaleDateString('en-US')
+      : '';
+
+    return { title, url, dateText, ts };
+  })
+  // Newest first (posts without a date go last)
+  .sort((a, b) => b.ts - a.ts);
+
 // Home page: show at most 10 blog posts
 const latestPosts = posts.slice(0, 10);
+const latestNotePosts = notePosts.slice(0, 10);
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -224,6 +252,34 @@ const latestPosts = posts.slice(0, 10);
       )}
     </section>
     -->
+
+    <!-- Note -->
+    <section class="home-section">
+      <h2 class="home-section-title">Note</h2>
+      {latestNotePosts.length === 0 ? (
+        <p>No Note posts yet. I will write something soon 👀</p>
+      ) : (
+        <>
+          <ul class="blog-list">
+            {latestNotePosts.map((notePosts) => (
+              <li class="blog-item">
+                {notePosts.dateText && (
+                  <span class="blog-date">{notePosts.dateText}</span>
+                )}
+                <a href={notePosts.url} class="blog-link">
+                  {notePosts.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p class="home-cta-wrapper">
+            <a href="/note" class="home-cta-link">
+              View all posts →
+            </a>
+          </p>
+        </>
+      )}
+    </section>
 
     <!-- Blog -->
     <section class="home-section">
